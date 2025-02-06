@@ -1,0 +1,13 @@
+
+server:
+  port: 8090
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/text?useUnicode=true&characterEncoding=UTF-8&useSSl=false&serverTimezone=UTC
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: tangmengxin123@@
+logging:
+  level:
+    com.demo.mapper: debug

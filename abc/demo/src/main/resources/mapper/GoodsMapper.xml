@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demo.mapper.GoodsMapper">
+    <select id="selectPage" parameterType="com.demo.entity.Goods" resultType="java.util.Map">
+        select *
+        from goods
+        <where>
+            name like #{name}
+            <if test="goodstype != null and goodstype != ''">
+                and goodsType = #{goodstype}
+            </if>
+            <if test="storage1!=null and storage1 != ''">
+                and storage = #{storage1}
+            </if>
+        </where>
+        limit #{pageNum}, #{pageSize}
+    </select>
+
+    <select id="selectTotal" parameterType="com.demo.entity.Goods" resultType="java.lang.Integer">
+        select count(*)
+        from goods
+        <where>
+            1=1
+            <if test="name!=null and name != ''">
+                and name like #{name}
+            </if>
+            <if test="goodstype!=null and goodstype != ''">
+                and goodsType = #{goodstype}
+            </if>
+            <if test="storage1!=null and storage1 != ''">
+                and storage = #{storage1}
+            </if>
+        </where>
+    </select>
+
+</mapper>

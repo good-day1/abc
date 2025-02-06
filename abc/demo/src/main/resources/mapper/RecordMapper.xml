@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demo.mapper.RecordMapper">
+
+    <select id="selectPage" parameterType="com.demo.entity.Record" resultType="com.demo.entity.RecordRes">
+
+        SELECT record.*,goods.`name` goodsname,storage.`name` storagename,goodstype.name goodstypename,
+        (SELECT u.name FROM USER u WHERE u.id=record.`userID`)username,
+        (SELECT u.name FROM USER u WHERE u.id=record.`admin_id`)adminname
+        FROM record,goods,STORAGE,goodstype
+        <where>
+            record.`goods`=goods.`id`
+            and goods.goodsType=goodstype.id
+            and goods.storage=storage.id
+        <if test="goodstype != null and goodstype != ''" >
+            and goods.`goodsType`=#{goodstype}
+        </if>
+        <if test="storage1!=null and storage1 != ''">
+            and goods.`storage`=#{storage1}
+        </if>
+        <if test="name!=null and name != ''">
+            and  goods.`name` like #{name}
+        </if>
+        </where>
+        limit #{pageNum}, #{pageSize}
+    </select>
+
+    <select id="selectTotal" parameterType="com.demo.entity.Record" resultType="java.lang.Integer">
+        select count(*)
+        from record,goods,goodstype,storage
+        <where>
+            record.`goods`=goods.`id`
+            and goods.goodsType=goodstype.id
+            and goods.storage=storage.id
+            <if test="goodstype != null and goodstype != ''" >
+                and goods.`goodsType`=#{goodstype}
+            </if>
+            <if test="storage1!=null and storage1 != ''">
+                and goods.`storage`=#{storage1}
+            </if>
+            <if test="name!=null and name != ''">
+                and  goods.`name` like #{name}
+            </if>
+        </where>
+
+    </select>
+
+
+
+    <select id="selectPage1" parameterType="com.demo.entity.Record" resultType="com.demo.entity.RecordRes">
+
+        SELECT record.*,goods.`name` goodsname,storage.`name` storagename,goodstype.name goodstypename,
+        (SELECT u.name FROM USER u WHERE u.id=record.`userID`)username,
+        (SELECT u.name FROM USER u WHERE u.id=record.`admin_id`)adminname
+        FROM record,goods,STORAGE,goodstype,user
+        <where>
+            record.`goods`=goods.`id`
+            and goods.goodsType=goodstype.id
+            and goods.storage=storage.id
+            and user.id=userId
+            <if test="goodstype != null and goodstype != ''" >
+                and goods.`goodsType`=#{goodstype}
+            </if>
+            <if test="storage1!=null and storage1 != ''">
+                and goods.`storage`=#{storage1}
+            </if>
+            <if test="name!=null and name != ''">
+                and  goods.`name` like #{name}
+            </if>
+        </where>
+        limit #{pageNum}, #{pageSize}
+    </select>
+
+    <select id="selectTotal1" parameterType="com.demo.entity.Record" resultType="java.lang.Integer">
+        select count(*)
+        from record,goods,goodstype,storage,user
+        <where>
+            record.`goods`=goods.`id`
+            and goods.goodsType=goodstype.id
+            and goods.storage=storage.id
+            and user.id=userId
+            <if test="goodstype != null and goodstype != ''" >
+                and goods.`goodsType`=#{goodstype}
+            </if>
+            <if test="storage1!=null and storage1 != ''">
+                and goods.`storage`=#{storage1}
+            </if>
+            <if test="name!=null and name != ''">
+                and  goods.`name` like #{name}
+            </if>
+        </where>
+
+    </select>
+
+
+
+
+
+
+</mapper>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demo.mapper.BuyMapper">
+
+
+    <select id="selectPage1" parameterType="com.demo.entity.BuyRes" resultType="com.demo.entity.BuyRes">
+
+        SELECT buy.id,goods.`name` goodsname,storage.`name` storagename,goodstype.name goodstypename,buy.`count`,buy.`remark`,buy.`createtime`,
+            user.name username
+        FROM goods,STORAGE,goodstype,user,buy
+        <where>
+            buy.`goods`=goods.`id`
+            and goods.goodsType=goodstype.id
+            and goods.storage=storage.id
+            and buy.`userId`=user.`id`
+            and buy.`userId`=#{userId1}
+            <if test="goodstype != null and goodstype != ''" >
+                and goods.`goodsType`=#{goodstype}
+            </if>
+            <if test="storage1!=null and storage1 != ''">
+                and goods.`storage`=#{storage1}
+            </if>
+            <if test="name!=null and name != ''">
+                and  goods.`name` like #{name}
+            </if>
+        </where>
+        limit #{pageNum}, #{pageSize}
+    </select>
+
+    <select id="selectTotal1" parameterType="com.demo.entity.Buy" resultType="java.lang.Integer">
+        select count(*)
+        from goods,goodstype,storage,user,buy
+        <where>
+            buy.`goods`=goods.`id`
+            and goods.goodsType=goodstype.id
+            and goods.storage=storage.id
+            and buy.`userId`=user.`id`
+            and buy.`userId`=#{userId1}
+            <if test="goodstype != null and goodstype != ''" >
+                and goods.`goodsType`=#{goodstype}
+            </if>
+            <if test="storage1!=null and storage1 != ''">
+                and goods.`storage`=#{storage1}
+            </if>
+            <if test="name!=null and name != ''">
+                and  goods.`name` like #{name}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectPage" parameterType="com.demo.entity.BuyRes" resultType="com.demo.entity.BuyRes">
+
+        SELECT buy.id,goods.`name` goodsname,storage.`name` storagename,goodstype.name goodstypename,buy.`count`,buy.`remark`,buy.`createtime`,
+        user.name username
+        FROM goods,STORAGE,goodstype,buy,user
+        <where>
+            buy.`goods`=goods.`id`
+            and goods.goodsType=goodstype.id
+            and goods.storage=storage.id
+            and buy.`userId`=user.`id`
+            <if test="goodstype != null and goodstype != ''" >
+                and goods.`goodsType`=#{goodstype}
+            </if>
+            <if test="storage1!=null and storage1 != ''">
+                and goods.`storage`=#{storage1}
+            </if>
+            <if test="name!=null and name != ''">
+                and  goods.`name` like #{name}
+            </if>
+        </where>
+        limit #{pageNum}, #{pageSize}
+    </select>
+
+    <select id="selectTotal" parameterType="com.demo.entity.Buy" resultType="java.lang.Integer">
+        select count(*)
+        from goods,goodstype,storage,buy
+        <where>
+            buy.`goods`=goods.`id`
+            and goods.goodsType=goodstype.id
+            and goods.storage=storage.id
+            <if test="goodstype != null and goodstype != ''" >
+                and goods.`goodsType`=#{goodstype}
+            </if>
+            <if test="storage1!=null and storage1 != ''">
+                and goods.`storage`=#{storage1}
+            </if>
+            <if test="name!=null and name != ''">
+                and  goods.`name` like #{name}
+            </if>
+        </where>
+    </select>
+
+
+</mapper>
